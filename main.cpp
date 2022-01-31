@@ -8,6 +8,7 @@
 using namespace std;
 
 void login();
+string passwordMasking();
 
 User *usr;
 
@@ -80,7 +81,7 @@ void login(){
 
     if(idFound == true){
         cout << "Enter your password: ";
-        cin >> enteredPassword;
+        enteredPassword = passwordMasking();
         fin.open("users.txt");
         while(fin.eof() == 0){
             fin >> ID >> firstName >> lastName >> age >> email >> contactNumber >> password;
@@ -104,4 +105,23 @@ void login(){
         cout << "Wrong Password, please enter a correct password";
         Sleep(3000);
     }
-}  
+}
+
+string passwordMasking(){
+    char ch;
+    int backspaceCount = 0;
+    string pass = "";
+    while(1){
+        ch = getch();
+        if ((ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z') || (ch >= '0' && ch <= '9') || (ch >= 33 && ch <= 47))
+                {
+                    pass = pass + ch;
+                    cout << "*";
+                    backspaceCount++;
+                }else if(ch == 13){
+                    break;
+                }
+    }
+    system("cls");
+    return pass;
+}
