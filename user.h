@@ -25,6 +25,7 @@ class User{
         User();
         void createNewAccount();
         void showData();
+        void setData(int, string, string, int, string, string, string);
 };
 
 User::User(){
@@ -125,6 +126,16 @@ void User::showData(){
     cout << "Age: " << this->age << endl;
     cout << "Email: " << this->email << endl;
     cout << "Contact Number: " << this->contactNumber << endl;
+}
+
+void User::setData(int ID, string firstName, string lastName, int age, string email, string contactNumber, string password){
+    this->ID = ID;
+    this->firstName = firstName;
+    this->lastName = lastName;
+    this->age = age;
+    this->email = email;
+    this->contactNumber = contactNumber;
+    this->password = password;
 }
 
 #endif

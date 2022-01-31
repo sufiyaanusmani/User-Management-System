@@ -4,11 +4,16 @@
 #include <stdlib.h>
 #include <windows.h>
 #include <conio.h>
+#include <fstream>
 using namespace std;
+
+void login();
+
+User *usr;
 
 int main(){
     int choice;
-    User *u;
+    
     while(1){
         system("cls");
         cout << "1. Login" << endl;
@@ -18,14 +23,15 @@ int main(){
         cin >> choice;
         
         switch(choice){
-            // case 1:
-            //     system("cls");
-            //     login();
-            //     break;
+            case 1:
+                system("cls");
+                login();
+                break;
             case 2:
                 system("cls");
-                u = new User;
-                u->createNewAccount();
+                usr = new User;
+                usr->createNewAccount();
+                delete usr;
                 break;
             case 3:
                 system("cls");
@@ -41,3 +47,61 @@ int main(){
     }
     return 0;
 }
+
+void login(){
+    system("cls");
+    int ID;
+    string firstName;
+    string lastName;
+    int age;
+    string email;
+    string contactNumber;
+    string password;
+    int enteredID;
+    string enteredPassword;
+
+    bool idFound = false;
+    bool passMatch = false;
+
+    cout << "Enter your ID: ";
+    cin >> enteredID;
+
+    ifstream fin;
+    fin.open("users.txt");
+    while(fin.eof() == 0){
+        fin >> ID >> firstName >> lastName >> age >> email >> contactNumber >> password;
+        if(enteredID == ID){
+            idFound = true;
+            break;
+        }
+    }
+
+    fin.close();
+
+    if(idFound == true){
+        cout << "Enter your password: ";
+        cin >> enteredPassword;
+        fin.open("users.txt");
+        while(fin.eof() == 0){
+            fin >> ID >> firstName >> lastName >> age >> email >> contactNumber >> password;
+            if(enteredPassword == password && ID == enteredID){
+                usr = new User;
+                usr->setData(ID, firstName, lastName, age, email, contactNumber, password);
+                cout << "Welcome " << firstName << " " << lastName;
+                Sleep(3000);
+                fin.close();
+                passMatch = true;
+                break;
+            }
+        }
+    }else{
+        system("cls");
+        cout << "Error, this ID does not exists";
+        Sleep(3000);
+    }
+
+    if(idFound == true && passMatch == false){
+        cout << "Wrong Password, please enter a correct password";
+        Sleep(3000);
+    }
+}  
